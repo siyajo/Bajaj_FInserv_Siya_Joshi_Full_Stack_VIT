@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>BFHL API Tester</title>
+</head>
+<body>
+  <h2>BFHL API Tester</h2>
+
+  <textarea id="inputData" rows="5" cols="50">
+["a","1","334","4","R","$"]
+  </textarea>
+  <br><br>
+  <button onclick="sendRequest()">Send to API</button>
+
+  <h3>Response:</h3>
+  <pre id="output"></pre>
+
+  <script>
+    async function sendRequest() {
+      try {
+        const data = JSON.parse(document.getElementById("inputData").value);
+
+        const response = await fetch("http://localhost:3000/bfhl", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ data: data })
+        });
+
+        const result = await response.json();
+        document.getElementById("output").textContent =
+          JSON.stringify(result, null, 2);
+      } catch (err) {
+        document.getElementById("output").textContent = "Error: " + err;
+      }
+    }
+  </script>
+</body>
+</html>
